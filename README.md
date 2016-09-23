@@ -8,9 +8,7 @@ on the Serial monitor
 
 A sample output https://github.com/rricharz/i2c-sniffer-100kBaud-Arduino-Mega/blob/master/sniffer.txt is enclosed, showing successful and failing i2c transfers.
 
-Please help to improve this program by tweeting to
-**http://twitter.com/r_richarz** or opening an issue on this repository
-if you have any problem or suggestion.
+Please open an issue in this repository if you have any problem with the program.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
