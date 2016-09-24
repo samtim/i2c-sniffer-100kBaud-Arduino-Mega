@@ -1,6 +1,6 @@
-////////////////////////////////////////
-// i2c sniffer by rricharz (tft version)
-////////////////////////////////////////
+//////////////////////////
+// i2c sniffer by rricharz
+//////////////////////////
 
 // For Arduino Mega 2560 (8 kB RAM required)
 // Uses direct port access for maximum speed
@@ -11,8 +11,8 @@
 
 // The data is displayed in the Serial Monitor, set to 115200 baud
 
-#define SDA               0x80                        // Pin 30 (PC7) on PINC is used for the SDA line
-#define SCL               0x40                        // Pin 31 (PC6) on PINC is used for the SCL line
+#define SDA_MASK          0x80                        // Pin 30 (PC7) on PINC is used for the SDA line
+#define SCL_MASK          0x40                        // Pin 31 (PC6) on PINC is used for the SCL line
 #define SAMPLE            (PINC & 0xC0)               // both pins
 #define START1            0xC0                        // start condition: transition from START1 to START2
 #define START2            0x40
@@ -103,7 +103,7 @@ void display_data(int points)
 
   Serial.print("Raw transitions, number of transitions = ");
   Serial.println(points);
-  Serial.print("Each number represents a status, bit 1 = SDA, bit 0 = CLK, start condition = 31");
+  Serial.print("Each number represents a status, bit 1 = SDA, bit 0 = SCL, start condition = 31");
   for (k = 0; k < points; k++) {
     if ((gbuffer(k) == 3) && (gbuffer(k + 1) == 1))        // start condition
       Serial.println();

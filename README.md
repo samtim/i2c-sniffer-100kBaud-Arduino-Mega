@@ -6,6 +6,8 @@ to sniff an i2c bus running at up to 100 kHz
 The raw state transitions and the analysis of the i2c communication is displayed
 on the Serial monitor
 
+Connect SDA to pin 30 of the Arduino Mega, and SCL to pin 31
+
 A sample output https://github.com/rricharz/i2c-sniffer-100kBaud-Arduino-Mega/blob/master/sniffer.txt is enclosed, showing successful and failing i2c transfers.
 
 Please open an issue in this repository if you have any problem with the program.
