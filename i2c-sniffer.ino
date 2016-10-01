@@ -19,7 +19,20 @@
 
 #define BUFFSIZE          5000
 
-#define TIMEOUT           10000                       // timeout in msec, change as required
+// The Aduino is not fast enough to acquire and display the data at the same time.
+// This is usually not a problem because the i2c access normally happens in bursts.
+// Set TIMEOUT below longer than the maximum length of one burst, but much shorter than
+// the time beween bursts minus the time required to analye and display the data.
+//
+// Example: maximum time of one i2c burst  300 msec
+// Time between bursts: 3000 msec
+// Time to analyze and display data of one burst: 100 msec
+// >>> TIMEOUT can be set between 300 msec and 2900 msec
+//
+// If you don't know anything about the i2c activity, set the timeout initially to a large value, for example 10000 msec
+// This means that the sampling will go on for 10000 msec after a first i2c start condition has been observed.
+
+#define TIMEOUT           1000                         // timeout in msec, change as required
 
 byte buffer[BUFFSIZE];
 
@@ -29,8 +42,6 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("\ni2c sniffer by rricharz\n");
-  int points = acquire_data();
-  display_data(points);
 }
 
 ////////////////////////
@@ -72,7 +83,7 @@ int acquire_data()
     while ((data = SAMPLE) == lastData);           // wait until data has changed
     buffer[k++] = lastData = data;
   }
-  while ((k < BUFFSIZE) && (millis() < TIMEOUT));
+  while ((k < BUFFSIZE) && (millis() < endtime));
   return k;
 }
 
@@ -98,9 +109,14 @@ void display_data(int points)
 /////////////////////////////
 {
   int lastData, data, k, Bit, Byte, i, state,nextStart;
+  long starttime;
 
 #define ADDRESS  0         // First state, address follows
 
+  starttime = millis();
+
+/*
+  // display raw data
   Serial.print("Raw transitions, number of transitions = ");
   Serial.println(points);
   Serial.print("Each number represents a status, bit 1 = SDA, bit 0 = SCL, start condition = 31");
@@ -109,8 +125,8 @@ void display_data(int points)
       Serial.println();
     Serial.print(gbuffer(k));
   }
+*/  
 
-  Serial.println();
   Serial.print("Analyzing data, number of transitions = "); Serial.println(points);
   Serial.println("i2c bus activity: * means ACQ = 1 (not ok)");
   k = 3;              // ignore start transition
@@ -166,6 +182,9 @@ void display_data(int points)
     }
   }
   while (k < points);
+  Serial.print("Time to analyze and display data was ");
+  Serial.print(millis() - starttime);
+  Serial.println(" msec");
   Serial.println();
 }
 
@@ -173,4 +192,6 @@ void display_data(int points)
 void loop()
 ///////////
 {
+  int points = acquire_data();
+  display_data(points);
 }
