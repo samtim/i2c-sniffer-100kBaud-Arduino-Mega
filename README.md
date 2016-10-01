@@ -12,9 +12,9 @@ This is usually not a problem because the i2c access normally happens in bursts.
 Set TIMEOUT longer than the maximum length of one burst, but shorter than
 the time beween bursts minus the time required to analye and display the data.
 
-Example: maximum time of one i2c burst  300 msec
-Time between bursts: 3000 msec
-Time to analyze and display data of one burst: 100 msec
+Example: maximum time of one i2c burst  300 msec.
+Time between bursts: 3000 msec.
+Time to analyze and display data of one burst: 100 msec.
 In this example TIMEOUT can be set between 300 msec and 2900 msec
 
 If you don't know anything about the i2c activity, set the timeout initially to a
